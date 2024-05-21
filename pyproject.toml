@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "cov-project"
+version = "0.1.0"
+description = "Initial setup for COV project"
+authors = ["Agata Dobrzyniewicz (ayakiri) and Mariia Kurshakova (MKurshakova)"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
