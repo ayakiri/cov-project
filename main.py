@@ -9,6 +9,9 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("-f", "--file-path", type=str, required=True, help="Path to image")
 parser.add_argument(
+    "-o", "--output-path", type=str, required=True, help="Path to save image"
+)
+parser.add_argument(
     "-s",
     "--style",
     type=str,
@@ -23,5 +26,9 @@ print(args)
 model = m.ModelClass()
 
 model.model_summary()
+
+img = utils.load_content_img(args.file_path)
+
+utils.save_image(img, args.output_path)
 
 print("Done")

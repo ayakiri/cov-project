@@ -10,9 +10,8 @@ class ModelClass(torch.nn.Module):
         self.features = torch.nn.Sequential(*list(vgg19.features.children()))
 
     def model_summary(self) -> None:
+        print("=================")
         print("Model summary:")
         print(self.features)
-        print("=================")
-        print(self.vgg19)
-        print("=================")
         print(len(self.features))
+        print("=================")
