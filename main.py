@@ -17,18 +17,33 @@ parser.add_argument(
     type=str,
     required=True,
     help="Style you want",
-    choices=["one", "two"],
+    choices=["ghibli", "pop_art"],
 )
 args = parser.parse_args()
 
+if args.style == "ghibli":
+    style_image_path = r"style_transfer/styles/studio_ghibli/ghibli_1.jpg"
+elif args.style == "pop_art":
+    style_image_path = r"style_transfer/styles/pop_art/pop_art.jpg"
+else:
+    style_image_path = r"style_transfer/styles/studio_ghibli/ghibli_1.jpg"
+
+
 print(args)
 
+# Model create
 model = m.ModelClass()
-
 model.model_summary()
 
-img = utils.load_content_img(args.file_path)
+# Content image prepare
+content_image = utils.load_image(args.file_path)
+# utils.save_image(content_image, args.output_path)
+content_image = utils.add_batch_dim(content_image)
+utils.image_info(content_image)
 
-utils.save_image(img, args.output_path)
+# Style image prepare
+style_image = utils.load_image(style_image_path)
+style_image = utils.add_batch_dim(style_image)
+utils.image_info(style_image)
 
 print("Done")
