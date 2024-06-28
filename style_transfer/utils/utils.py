@@ -1,42 +1,41 @@
+from typing import Optional
+
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from PIL import Image
 from torch import tensor
 from torchvision.transforms import transforms
 
 
-# Image utils
-def save_image(image: torch.Tensor, output_path: str) -> None:
-    image_np = image.permute(1, 2, 0).numpy()
-    plt.imsave(output_path, image_np)
+def gram_matrix(t: torch.Tensor) -> torch.Tensor:
+    _, d, h, w = t.size()
+    t = t.view(d, h * w)
+    gram = torch.mm(t, t.t())
+    return gram
 
 
-def image_info(image: torch.Tensor) -> None:
-    print("Image shape:", image.shape)
-    print("Image max value:", image.min())
-    print("Image min value:", image.max())
+def load_image(
+    image_path: str,
+    transform: transforms.Compose = None,
+    max_size: int = 400,
+    shape: Optional[torch.Size] = None,
+    device: str = "cpu",
+) -> torch.Tensor:
+    image = Image.open(image_path)
+    if max(image.size) > max_size:
+        size = max_size
+        image = image.resize((size, int(size * image.size[1] / image.size[0])))
+
+    if transform:
+        image = transform(image).unsqueeze(0)
+
+    return image.to(device)
 
 
-def load_image(path: str) -> torch.Tensor:
-    img = Image.open(path)
-    transform = transforms.Compose(
-        [
-            # transforms.Resize((512, 512)), do we want that
-            transforms.ToTensor()
-        ]
-    )
-    img_in_tensor = transform(img)
-    print(img_in_tensor)
-    return img_in_tensor
-
-
-# Ops utils
-def add_batch_dim(tensor_3dim: torch.Tensor) -> torch.Tensor:
-    """
-    Adds batch to a tensor and returns a new tensor in (batch_size, channels, height, width) format.
-
-    :param tensor_3dim: torch.Tensor
-    :return: torch.Tensor
-    """
-    new_tensor = tensor_3dim.unsqueeze(0)
-    return new_tensor
+transform = transforms.Compose(
+    [
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+    ]
+)
