@@ -16,24 +16,3 @@ class StyleTransferModel:
         print("Model summary:")
         print(self.vgg)
         print("=================")
-
-
-class VGG(nn.Module):
-    def __init__(
-        self,
-        content_layers: list,
-        style_layers: list,
-        model: torch.nn.modules.container.Sequential,
-    ) -> None:
-        super(VGG, self).__init__()
-        self.chosen_features = content_layers + style_layers
-        self.model = model[:29]
-
-    def forward(self, x: torch.Tensor) -> dict:
-        print(type(x))
-        features = {}
-        for name, layer in self.model._modules.items():
-            x = layer(x)
-            if f"conv_{int(name) + 1}" in self.chosen_features:
-                features[f"conv_{int(name) + 1}"] = x
-        return features

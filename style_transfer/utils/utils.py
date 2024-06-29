@@ -8,34 +8,16 @@ from torch import tensor
 from torchvision.transforms import transforms
 
 
-def gram_matrix(t: torch.Tensor) -> torch.Tensor:
-    _, d, h, w = t.size()
-    t = t.view(d, h * w)
-    gram = torch.mm(t, t.t())
-    return gram
+def load_image(image_path: str, device: torch.device) -> torch.Tensor:
+    transform = transforms.Compose(
+        [transforms.Resize((512, 768)), transforms.ToTensor()]
+    )
 
-
-def load_image(
-    image_path: str,
-    transform: transforms.Compose = None,
-    max_size: int = 400,
-    shape: Optional[torch.Size] = None,
-    device: str = "cpu",
-) -> torch.Tensor:
     image = Image.open(image_path)
-    if max(image.size) > max_size:
-        size = max_size
-        image = image.resize((size, int(size * image.size[1] / image.size[0])))
-
-    if transform:
-        image = transform(image).unsqueeze(0)
-
-    return image.to(device)
+    image = transform(image).unsqueeze(0)
+    return image.to(device, torch.float32)
 
 
-transform = transforms.Compose(
-    [
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-    ]
-)
+def save_image(image: torch.Tensor, output_path: str) -> None:
+    image_np = image.squeeze(0).permute(1, 2, 0).numpy()
+    plt.imsave(output_path, image_np)
