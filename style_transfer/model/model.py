@@ -1,17 +1,18 @@
 import torch
 import torchvision.models as models
+from torch import nn
+from torchvision.models import VGG19_Weights
 
 
-class ModelClass(torch.nn.Module):
+class StyleTransferModel:
     def __init__(self) -> None:
-        super(ModelClass, self).__init__()
-        vgg19 = models.vgg19(pretrained=True)
-        self.vgg19 = torch.nn.Sequential(*list(vgg19.children())[:-1])
-        self.features = torch.nn.Sequential(*list(vgg19.features.children()))
+        vgg = models.vgg19(weights=VGG19_Weights.IMAGENET1K_V1).features
+        for param in vgg.parameters():
+            param.requires_grad = False
+        self.vgg = vgg
 
     def model_summary(self) -> None:
         print("=================")
         print("Model summary:")
-        print(self.features)
-        print(len(self.features))
+        print(self.vgg)
         print("=================")

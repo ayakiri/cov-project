@@ -1,5 +1,11 @@
 import argparse
 
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from PIL import Image
+from torchvision import transforms
+
 import style_transfer.model.model as m
 from style_transfer.utils import utils
 
@@ -29,21 +35,16 @@ else:
     style_image_path = r"style_transfer/styles/studio_ghibli/ghibli_1.jpg"
 
 
-print(args)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.set_default_device(device)
 
-# Model create
-model = m.ModelClass()
-model.model_summary()
+print(args, device, type(device))
 
-# Content image prepare
-content_image = utils.load_image(args.file_path)
-# utils.save_image(content_image, args.output_path)
-content_image = utils.add_batch_dim(content_image)
-utils.image_info(content_image)
+content_image = utils.load_image(r"E:\cov-project\woman.jpg", device)
+style_image = utils.load_image(
+    r"E:\cov-project\style_transfer\styles\studio_ghibli\ghibli_1.jpg", device
+)
 
-# Style image prepare
-style_image = utils.load_image(style_image_path)
-style_image = utils.add_batch_dim(style_image)
-utils.image_info(style_image)
+utils.save_image(content_image, args.output_path)
 
-print("Done")
+print("Gracefully finished")
