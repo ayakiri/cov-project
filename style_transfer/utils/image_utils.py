@@ -17,7 +17,7 @@ def load_image(image_path: str, device: torch.device) -> torch.Tensor:
         The transformed image tensor.
     """
     transform = transforms.Compose(
-        [transforms.Resize((768, 512)), transforms.ToTensor()]
+        [transforms.Resize((480, 640)), transforms.ToTensor()]
     )
 
     image = Image.open(image_path)

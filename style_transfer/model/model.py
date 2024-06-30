@@ -16,6 +16,7 @@ class StyleTransferModel:
         Initialize the StyleTransferModel with a pre-trained VGG19 model.
         """
         self.vgg = models.vgg19(weights=VGG19_Weights.IMAGENET1K_V1).features.eval()
+        # TODO - encoder on param
 
     def get_model(self) -> nn.Module:
         """

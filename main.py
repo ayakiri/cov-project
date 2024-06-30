@@ -15,22 +15,12 @@ parser.add_argument(
 )
 parser.add_argument(
     "-s",
-    "--style",
+    "--style-path",
     type=str,
     required=True,
     help="Style you want",
-    choices=["ghibli", "pop_art", "japanese"],
 )
 args = parser.parse_args()
-
-if args.style == "ghibli":
-    style_image_path = r"style_transfer/styles/studio_ghibli/ghibli_1.jpg"
-elif args.style == "pop_art":
-    style_image_path = r"style_transfer/styles/pop_art/pop_art.jpg"
-elif args.style == "japanese":
-    style_image_path = r"style_transfer/styles/japanese/japanese.jpg"
-else:
-    style_image_path = r"style_transfer/styles/studio_ghibli/ghibli_1.jpg"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.set_default_device(device)
@@ -38,12 +28,15 @@ torch.set_default_device(device)
 print(args, device, type(device))
 
 content_image = image_utils.load_image(args.file_path, device)
-style_image = image_utils.load_image(style_image_path, device)
+style_image = image_utils.load_image(args.style_path, device)
 input_image = content_image.clone()
 
 model = StyleTransferModel().get_model()
 normalization = Normalization()
 
-# TODO - run model
+output = model_utils.style_transfer(model, content_image, style_image, input_image)
+
+print("Saving new image...")
+image_utils.save_image(output, args.output_path)
 
 print("Gracefully finished")
