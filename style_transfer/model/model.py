@@ -1,3 +1,4 @@
+"""Module implementing the style transfer and normalization"""
 import torch
 import torchvision.models as models
 from torch import nn
