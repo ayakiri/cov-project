@@ -177,7 +177,8 @@ def style_transfer(
     content_img: torch.Tensor,
     style_img: torch.Tensor,
     input_img: torch.Tensor,
-    num_steps: int = 550,
+    optimizer_chosen: str,
+    num_steps: int = 360,
     style_weight: int = 1000000,
     content_weight: int = 1,
 ) -> torch.Tensor:
@@ -192,6 +193,8 @@ def style_transfer(
         The style image tensor.
     :param input_img: torch.Tensor
         The input image tensor to optimize.
+    :param optimizer_chosen: str
+        The optimizer name used to update.
     :param num_steps: int, optional
         The number of optimization steps.
     :param style_weight: int, optional
@@ -205,7 +208,8 @@ def style_transfer(
     input_img.requires_grad_(True)
     model.eval()
     model.requires_grad_(False)
-    optimizer = optim.LBFGS([input_img])
+    if optimizer_chosen == "lbfgs":
+        optimizer = optim.LBFGS([input_img])
     # TODO - optimizer on param
 
     run = [0]
