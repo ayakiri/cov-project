@@ -172,7 +172,12 @@ def style_transfer(
     model.requires_grad_(False)
     if optimizer_chosen == "lbfgs":
         optimizer = optim.LBFGS([input_img])
-    # TODO - optimizer on param
+    elif optimizer_chosen == "adam":
+        optimizer = optim.Adam([input_img])
+    elif optimizer_chosen == "sgd":
+        optimizer = optim.SGD([input_img])
+    else:
+        raise ValueError(f"Optimizer {encoder} is not supported.")
 
     run = [0]
     while run[0] < num_steps:

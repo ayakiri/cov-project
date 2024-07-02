@@ -31,7 +31,7 @@ parser.add_argument(
     type=str,
     default="lbfgs",
     help="Which optimizer to use",
-    choices=["lbfgs"],
+    choices=["lbfgs", "adam", "sgd"],
 )
 args = parser.parse_args()
 
