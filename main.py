@@ -38,8 +38,6 @@ args = parser.parse_args()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 torch.set_default_device(device)
 
-print(args, device, type(device))
-
 content_image = image_utils.load_image(args.file_path, device)
 style_image = image_utils.load_image(args.style_path, device)
 input_image = content_image.clone()
@@ -53,7 +51,8 @@ output = model_utils.style_transfer(
     style_img=style_image,
     input_img=input_image,
     num_steps=args.steps,
-    optimizer=args.optimizer,
+    optimizer_chosen=args.optimizer,
+    encoder=args.encoder,
 )
 
 print("Saving new image...")

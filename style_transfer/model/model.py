@@ -37,12 +37,11 @@ class StyleTransferModel:
 
     def get_model(self) -> nn.Module:
         """
-        Return the pre-trained VGG19 model.
+        Return the pre-trained model.
 
         :return: nn.Module
-            The VGG19 feature extractor model.
+            The feature extractor model.
         """
-        print(self.encoder)
         return self.encoder
 
 
