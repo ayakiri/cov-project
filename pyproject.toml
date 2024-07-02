@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "Style transfer project"
+name = "style_transfer"
 version = "0.1.0"
-description = "Initial setup for COV project"
+description = "COV project"
 authors = ["Agata Dobrzyniewicz (ayakiri) and Mariia Kurshakova (MKurshakova)"]
 readme = "README.md"
 
