@@ -11,21 +11,38 @@ class StyleTransferModel:
     for style transfer.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, encoder: str) -> None:
         """
         Initialize the StyleTransferModel with a pre-trained VGG19 model.
+
+        :param encoder: str
+            Name of the pre-trained encoder we want to use.
         """
-        self.vgg = models.vgg19(weights=VGG19_Weights.IMAGENET1K_V1).features.eval()
-        # TODO - encoder on param
+        if encoder == "vgg19":
+            self.encoder = models.vgg19(
+                weights=VGG19_Weights.IMAGENET1K_V1
+            ).features.eval()
+        elif encoder == "resnet50":
+            resnet50 = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
+            self.encoder = torch.nn.Sequential(*list(resnet50.children())[:-2]).eval()
+        elif encoder == "inception_v3":
+            inception_v3 = models.inception_v3(
+                weights=models.Inception_V3_Weights.IMAGENET1K_V1
+            )
+            self.encoder = torch.nn.Sequential(
+                *list(inception_v3.children())[:-2]
+            ).eval()
+        else:
+            raise ValueError(f"Encoder {encoder} is not supported.")
 
     def get_model(self) -> nn.Module:
         """
-        Return the pre-trained VGG19 model.
+        Return the pre-trained model.
 
         :return: nn.Module
-            The VGG19 feature extractor model.
+            The feature extractor model.
         """
-        return self.vgg
+        return self.encoder
 
 
 class Normalization(nn.Module):
