@@ -61,6 +61,34 @@ Dependencies are handeled by `poetry` framework, to add new dependency run
 poetry add <package_name>
 ```
 
+
+## Example pictures
+Example pictures can be found in example_outputs directory.
+
+|       | vgg19                                           | resnet50                                           | inception_v3                                                  |
+|-------|-------------------------------------------------|----------------------------------------------------|---------------------------------------------------------------|
+| LBFGS | ![vgg_lbfgs](example_outputs/o_vgg19_lbfgs.jpg) | ![resnet50_lbfgs](example_outputs/o_res_lbfgs.jpg) | ![inception3_lbfgs](example_outputs/o_inception_v3_lbfgs.jpg) |
+| ADAM  | ![vgg_adam](example_outputs/o_vgg19_adam.jpg)   | ![resnet50_adam](example_outputs/o_res_adam.jpg)   | ![inception3_adam](example_outputs/o_inception_v3_adam.jpg)   |
+| SGD   | ![vgg_sgd](example_outputs/o_vgg19_sgd.jpg)     | ![resnet50_sgd](example_outputs/o_res_sgd.jpg)     | ![inception3_sgd](example_outputs/o_inception_v3_sgd.jpg)     |
+
+## Results
+To evaluate the effectiveness of different combinations of encoders and optimizers in style transfer, we conducted a survey. Participants were asked to rate the resulting images based on two criteria:
+
+* Which image best captures the style?
+* Which image do you like the most?
+The survey included participants with varying levels of expertise in artificial intelligence, providing us with a diverse range of opinions.
+
+Survey results indicated that Inception_V3 with LBFGS received the highest ratings for precise style transfer and image aesthetics. The second highest rated combination was VGG19 with LBFGS, also praised for its visually appealing results.
+
+[Survey](https://forms.gle/7HAdPRxAAKWGnxdt6)
+
+
+## Summary
+Survey results clearly indicate that the combination of Inception_V3 with LBFGS is the most effective both in terms of style transfer and the aesthetics of the final images. Nevertheless, VGG19 with LBFGS also received high ratings, confirming its value. The SGD optimizer did not significantly impact the quality of results compared to LBFGS and Adam. Results with SGD often required more iterations to achieve comparable outcomes. ResNet50 with the LBFGS optimizer achieved less satisfactory results in our experiments, possibly due to differences in the ResNet50 architecture, which may require a different optimization approach.
+
+Our study confirms that the choice of encoder and optimizer is crucial for the quality of style transfer results. Inception_V3, as a newer architecture, offers significant benefits, yet VGG19 remains a strong contender. The LBFGS optimizer proved to be the most effective in both evaluated categories, making it the preferred choice for style transfer tasks.
+forms.gle
+
 <!-- Contributing -->
 ## :wave: Contributors
 
